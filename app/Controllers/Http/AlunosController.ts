@@ -6,6 +6,18 @@ import Aluno from 'App/Models/AlunoModel'
 
 
 export default class AlunosController {
+    public async read({ params }: HttpContextContract) {
+        const id = params.id
+        const aluno = await Aluno.find(id)
+        if (aluno) {
+            return aluno
+        }
+        else {
+            return 'aluno não cadastrado'
+        }
+
+    }
+
     public async create({ request }: HttpContextContract) {
         const data = request.only(['name', 'email', 'registration', 'birthdate'])
         await Aluno.create(data)
@@ -24,10 +36,18 @@ export default class AlunosController {
         })
 
         const data = await request.validate({ schema: validationSchema })
-       
-        await Aluno.updateOrCreate({id}, { name: data.name, email: data.email, birthdate: data.birthdate.toString() })  
+
+        await Aluno.updateOrCreate({ id }, { name: data.name, email: data.email, birthdate: data.birthdate.toString() })
 
         return "aluno atualizado com sucesso"
+    }
+
+    public async delete({ params }: HttpContextContract) {
+        const id = params.id
+        const aluno = await Aluno.findOrFail(id)
+        await aluno.delete()
+        return "dados do aluno excluido com sucesso"
+
     }
 }
 
