@@ -47,7 +47,7 @@ export default class AlunosController {
                 matricula: schema.string({}, [
                     rules.required()
                 ]),
-                data_nascimento: schema.string({}, [
+                data_nascimento: schema.date({}, [
                     rules.required()
                 ])
             }),
