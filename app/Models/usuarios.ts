@@ -1,26 +1,29 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class ProfessorModel extends BaseModel {
-  public static table = 'professores'
+export default class usuarios extends BaseModel {
+  public static table = 'usuarios'
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public name : string
+  public nome : string
 
   @column()
   public email : string
 
   @column()
-  public registration : string  
+  public matricula : string  
 
   @column()
-  public birthdate : string
+  public data_nascimento : DateTime
+
+  @column()
+  public professor: boolean
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public criadoEm: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public atualizadoEm: DateTime
 }
