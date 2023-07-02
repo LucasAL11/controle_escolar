@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
-import Professor from 'App/Models/ProfessorModel'
+import Professor from 'App/Models/usuarios'
 
 
 
@@ -19,11 +19,11 @@ export default class ProfessoresController {
     }
 
     public async create({ request }: HttpContextContract) {
-        const data = request.only(['name', 'email', 'registration', 'birthdate'])
+        const data = request.only(['nome', 'email', 'matricula', 'data_nascimento'])
         await request.validate({
             schema: schema.create({
 
-                name: schema.string({}, [
+                nome: schema.string({}, [
                     rules.required(),
                     rules.maxLength(100)
                 ]),
@@ -33,14 +33,12 @@ export default class ProfessoresController {
                     rules.required()
                 ]),
 
-                registration: schema.string({}, [
+                matricula: schema.string({}, [
                     rules.required()
                 ]),
-                birthdate: schema.string({}, [
+                data_nascimento: schema.date({}, [
                     rules.required()
                 ])
-
-
             }),
             messages: {
                 required: 'campo obrigatorio'
@@ -66,6 +64,9 @@ export default class ProfessoresController {
     public async delete({ params }: HttpContextContract) {
         const id = params.id
         const professor = await Professor.findOrFail(id)
+        if(!professor.professor){
+            return "não foi possivel excluir usuario ele é um aluno"
+        }
         await professor.delete()
         return "dados do professor excluido com sucesso"
     }
