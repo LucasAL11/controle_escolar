@@ -1,31 +1,40 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
-import Aluno from 'App/Models/AlunoModel'
-
-
+import Aluno from 'App/Models/usuarios'
 
 export default class AlunosController {
     public async read({ params }: HttpContextContract) {
         const id = params.id
         const aluno = await Aluno.findOrFail(id)
-        if (aluno) 
-        {
-            return aluno
+
+        if(aluno.professor){
+            return "não foi possivel atualizar este usuario ele um professor"
         }
-        else 
-        {
+
+
+        if (aluno) {
+            let aluno_dto = {
+                nome: aluno.nome,
+                email: aluno.email,
+                matricula: aluno.matricula,
+                data_nascimento: aluno.data_nascimento
+            }
+
+            return aluno_dto
+        }
+        else {
             return 'aluno não cadastrado'
         }
     }
 
     public async create({ request }: HttpContextContract) {
-        const data = request.only(['name', 'email', 'registration', 'birthdate'])
+        const data = request.only(['nome', 'email', 'matricula', 'data_nascimento'])
 
         await request.validate({
             schema: schema.create({
 
-                name: schema.string({}, [
+                nome: schema.string({}, [
                     rules.required(),
                     rules.maxLength(100)
                 ]),
@@ -35,10 +44,10 @@ export default class AlunosController {
                     rules.required()
                 ]),
 
-                registration: schema.string({}, [
+                matricula: schema.string({}, [
                     rules.required()
                 ]),
-                birthdate: schema.string({}, [
+                data_nascimento: schema.string({}, [
                     rules.required()
                 ])
             }),
@@ -54,19 +63,26 @@ export default class AlunosController {
     public async update({ request, params }: HttpContextContract) {
         const id = params.id
         const validationSchema = schema.create({
-            name: schema.string(),
+            nome: schema.string(),
             email: schema.string({}, [
                 rules.email(),
             ]),
-            birthdate: schema.date(),
+            data_nascimento: schema.date(),
         })
 
         const data = await request.validate({ schema: validationSchema })
 
+        let alunoModel = {
+            nome: data.nome,
+            email: data.email,
+            data_nascimento: data.data_nascimento.toSQLDate()
+        }
+
+
         await Aluno
             .query()
             .where('id', id)
-            .update(data)
+            .update(alunoModel)
 
         return "aluno atualizado com sucesso"
     }
@@ -79,5 +95,3 @@ export default class AlunosController {
 
     }
 }
-
-
