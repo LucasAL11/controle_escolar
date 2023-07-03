@@ -19,8 +19,10 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import './routes/StudentsRoutes'
-import './routes/TeachersRoutes'
+
+import './routes/UsersRoutes'
+import './routes/AuthRoutes'
+import './routes/RoomRoutes'
 
 
 
