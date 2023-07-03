@@ -1,5 +1,5 @@
 import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
-import Student from './Students'
+import User from './User'
 import Room from './Room'
 
 export default class Enrollment extends BaseModel {
@@ -12,8 +12,8 @@ export default class Enrollment extends BaseModel {
   @column()
   public roomId: number
 
-  @belongsTo(() => Student)
-  public student: BelongsTo<typeof Student>
+  @belongsTo(() => User)
+  public student: BelongsTo<typeof User>
 
   @belongsTo(() => Room)
   public room: BelongsTo<typeof Room>
