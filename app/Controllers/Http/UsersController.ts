@@ -1,5 +1,7 @@
 
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Enrollment from 'App/Models/Enrollment'
+import Room from 'App/Models/Room'
 import User from 'App/Models/User'
 
 export default class UserController {
@@ -15,6 +17,30 @@ export default class UserController {
     }
     return user
   }
+
+  public async showAllClasses({ params, response }: HttpContextContract) {
+    
+    const user = await User.findByOrFail("id", params.id_usuario)
+    if (!user) {
+      return response.status(404).send('não encontrado')
+    }
+
+    const enrollments = await Enrollment.findByOrFail("user_id", params.id_usuario)
+    const room = await Room.findByOrFail("room_number", enrollments.room_id)
+
+    const professor = await User.findByOrFail("id", room.user_id)
+
+
+    
+    let classesDTO = {
+      nome: user.name,
+      professor: professor.name,
+      sala: enrollments.room_id
+    }
+
+    return response.status(200).send({ classesDTO})
+  }
+
 
   public async store({ request }: HttpContextContract) {
     const data = request.only(['name', 'email', 'password', 'registration', 'birth_date', 'role'])
