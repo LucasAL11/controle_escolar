@@ -1,14 +1,12 @@
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
-import User from './User'
-import Room from './Room'
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Enrollment extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @belongsTo(() => User)
-  public user_id: BelongsTo<typeof User>
+  @column()
+  public user_id: number
 
-  @belongsTo(() => Room)
-  public room_id: BelongsTo<typeof Room>
+  @column()
+  public room_id: number
 }

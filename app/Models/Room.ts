@@ -5,7 +5,7 @@ export default class Room extends BaseModel {
   public id: number
 
   @column()
-  public roomNumber: number
+  public room_number: number
 
   @column()
   public capacity: number
@@ -14,5 +14,5 @@ export default class Room extends BaseModel {
   public availability: boolean
 
   @column()
-  public user_id: boolean
+  public user_id: number
 }

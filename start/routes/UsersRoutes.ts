@@ -13,4 +13,3 @@ Route.post('/v1/users/:id_usuario/rooms', 'RoomController.store')
 Route.put('/v1/users/:id_usuario/rooms/:id_sala', 'RoomController.update')
 Route.delete('/v1/users/:id_usuario/rooms/:id_sala', 'RoomController.destroy')
 
-
