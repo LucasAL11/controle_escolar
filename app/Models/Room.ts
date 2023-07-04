@@ -12,4 +12,7 @@ export default class Room extends BaseModel {
 
   @column()
   public availability: boolean
+
+  @column()
+  public user_id: boolean
 }

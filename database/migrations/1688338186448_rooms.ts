@@ -9,6 +9,8 @@ export default class Rooms extends BaseSchema {
       table.integer('room_number').notNullable().unique()
       table.integer('capacity').notNullable()
       table.boolean('availability').notNullable().defaultTo(true)
+      table.integer('user_id').notNullable()
+
     })
   }
 

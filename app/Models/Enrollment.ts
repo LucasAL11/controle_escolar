@@ -6,15 +6,9 @@ export default class Enrollment extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
-  public studentId: number
-
-  @column()
-  public roomId: number
-
   @belongsTo(() => User)
-  public student: BelongsTo<typeof User>
+  public user_id: BelongsTo<typeof User>
 
   @belongsTo(() => Room)
-  public room: BelongsTo<typeof Room>
+  public room_id: BelongsTo<typeof Room>
 }
